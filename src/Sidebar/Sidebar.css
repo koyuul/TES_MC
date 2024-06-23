@@ -1,0 +1,14 @@
+#sidebar {
+    /* These variables are for editing the tree packages default values */
+    --rct-color-focustree-item-selected-bg: var(--gray);
+    --rct-color-focustree-item-hover-bg: var(--gray_dim);
+
+    --rct-color-drag-between-line-bg: var(--tes_gold);
+    --rct-color-arrow: var(--txt_white);
+    --rct-bar-color: var(--tes_gold);
+
+    background-color: var(--bg_dim);
+    min-width: 20%;
+    min-height: 100%;
+    padding: 1%;
+}

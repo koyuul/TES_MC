@@ -1,0 +1,30 @@
+html {
+    --bg_dim: #242120;
+    --bg0: #312c2b;
+    --gray: #90817b;
+    --gray_dim: #6a5e59;
+    --txt_white: #e6e6e6;
+    --tes_gold: #ffa900;
+
+    font-family: Roboto, Helvetica, sans-serif;
+
+    background-color: var(--bg0);
+    color: var(--txt_white);
+
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+#app {
+    display: flex;
+    min-height: 100%;
+}
