@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tree } from 'react-arborist';
-import { useDrag } from 'react-dnd';
 import "./Sidebar.css";
 export default class Sidebar extends React.Component {
     constructor(props) {
@@ -36,15 +35,13 @@ export default class Sidebar extends React.Component {
     SidebarItem = ({ node, style, dragHandle }) => {
         function handleClick(event) {
             if (node.isLeaf) {
-                let tabToBeAdded = {
-                    type: "tab",
-                    component: "grid",
-                    name: node.parent.parent.data.id + " - " + node.data.name
-                }
-
                 this.layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
                     node.data.name + " 📈",
-                    tabToBeAdded,
+                    {
+                        type: "tab",
+                        component: "graph",
+                        name: node.parent.parent.data.id + " - " + node.data.name,
+                    },
                 );
             }
             else node.toggle();
@@ -60,7 +57,7 @@ export default class Sidebar extends React.Component {
     render() {
         return (
             <div id="sidebar">
-                <Tree initialData={this.state.items} openByDefault={false}>
+                <Tree initialData={this.state.items} openByDefault={true}>
                     {this.SidebarItem}
                 </Tree>
             </div>

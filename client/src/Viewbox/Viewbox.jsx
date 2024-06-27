@@ -1,10 +1,12 @@
 import React from 'react'
-import { useDrop } from 'react-dnd'
 import { Layout, Model } from 'flexlayout-react'
+import Graph from "./Graph"
 import 'flexlayout-react/style/dark.css';
 import "./Viewbox.css"
 
-var json = { //TODO: make this relevant to ours
+//TODO: make this relevant to us
+//TODO: make this preload
+let defaultViewModel = { // This model defines the inital view we see when the app opens
     global: {},
     borders: [],
     layout: {
@@ -37,15 +39,23 @@ var json = { //TODO: make this relevant to ours
     }
 };
 
-const model = Model.fromJson(json);
-
+const model = Model.fromJson(defaultViewModel);
+const rethinkURL = ""
 
 const Viewbox = function (props) {
     const factory = (node) => {
         var component = node.getComponent();
 
-        if (component === "button") {
-            return <button>{node.getName()}</button>;
+        if (component === "button") return <button>{node.getName()}</button>;
+        if (component === "graph") {
+            try {
+                let name = node._attributes.name.split(' ')[0]
+                return <Graph tableName={name} />
+            }
+            catch (err) {
+                alert(err)
+                console.error(err)
+            }
         }
     }
 
