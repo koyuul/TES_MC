@@ -1,6 +1,4 @@
 import React, { useRef } from "react";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
 import Sidebar from "./Sidebar/Sidebar"
 import Viewbox from "./Viewbox/Viewbox";
 import "./App.css";
