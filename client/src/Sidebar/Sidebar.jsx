@@ -16,8 +16,8 @@ export default class Sidebar extends React.Component {
                             name: 'Raw Mission Data',
                             children: [
                                 {
-                                    id: 'TES13_ax',
-                                    name: 'ax'
+                                    id: 'TES13_SP1V',
+                                    name: 'SP1V'
                                 }
                             ]
                         }
