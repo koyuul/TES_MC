@@ -12,8 +12,10 @@ import {
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import io from 'socket.io-client'
+import { splitToPoints } from '../utils/PacketSplitter';
+import { generateSidebarLabels } from '../utils/SidebarGenerator';
 
-ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 
 function Graph(props) {
@@ -24,7 +26,9 @@ function Graph(props) {
         const socket = io('ws://localhost:3000');
         socket.on('initialData', (initialData) => {
             console.log('Received initial data');
-            setDataPackets(initialData);
+
+            console.log(generateSidebarLabels('TES13', initialData));
+            setDataPackets(splitToPoints(initialData, props.name));
         })
 
         socket.on('change', (change) => {
@@ -54,16 +58,11 @@ function Graph(props) {
 
     const data = {
         datasets: [{
-            label: 'My First Dataset',
+            label: props.name,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1,
-            data: [
-                { x: '2024-05-11', y: 1 },
-                { x: '2024-05-15', y: 5 },
-                { x: '2024-05-29', y: 2 },
-                { x: '2024-06-10', y: 19 },
-            ],
+            data: dataPackets,
         }]
     }
 

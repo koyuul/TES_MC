@@ -17,7 +17,7 @@ rethinkdb.connect({ host: 'localhost', port: 28015 }, (err, conn) => {
     console.log('RethinkDB Connected');
     rethinkdb.db('TES_13').table('Powerboard')
         .orderBy({ index: rethinkdb.desc('EPOCH') })
-        .limit(20)
+        .limit(100)
         .changes({ includeInitial: true })
         .run(conn, function (err, cursor) {
             cursor.each((err, change) => {

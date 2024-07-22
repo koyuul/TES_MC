@@ -66,8 +66,8 @@ const Viewbox = function (props) {
         if (component === "button") return <button>{node.getName()}</button>;
         if (component === "graph") {
             try {
-                let name = node._attributes.name.split(' ')[0]
-                return <Graph node={node} />
+                let name = node._attributes.name.split(' ');
+                return <Graph node={node} name={name[name.length - 1]} />
             }
             catch (err) {
                 alert(err)

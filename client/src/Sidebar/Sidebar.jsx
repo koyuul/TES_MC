@@ -1,41 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tree } from 'react-arborist';
+import useResizeObserver from "use-resize-observer";
+import TES13_labels from "../data/TES13_labels.json"
 import "./Sidebar.css";
-export default class Sidebar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.layoutRef = props.layoutRef;
-        this.state = {
-            items: [
-                {
-                    id: 'TES13',
-                    name: 'TechEdSat-13',
-                    children: [
-                        {
-                            id: 'TES13_raw',
-                            name: 'Raw Mission Data',
-                            children: [
-                                {
-                                    id: 'TES13_SP1V',
-                                    name: 'SP1V'
-                                }
-                            ]
-                        }
-                    ],
-                },
-                {
-                    id: 'TES15',
-                    name: 'TechEdSat-15',
-                    children: [],
-                },
-            ]
-        }
-    }
 
-    SidebarItem = ({ node, style, dragHandle }) => {
+export default function Sidebar(props) {
+    let layoutRef = props.layoutRef;
+    let [items, setItems] = useState([
+        {
+            id: 'TES13',
+            name: 'TechEdSat-13',
+            children: [
+                {
+                    id: 'TES13_raw',
+                    name: 'Raw Mission Data',
+                    children: TES13_labels.labels
+                }
+            ],
+        },
+        {
+            id: 'TES15',
+            name: 'TechEdSat-15',
+            children: [],
+        },
+    ])
+
+    let SidebarItem = ({ node, style, dragHandle }) => {
         function handleClick(event) {
             if (node.isLeaf) {
-                this.layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
+                layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
                     node.data.name + " 📈",
                     {
                         type: "tab",
@@ -48,19 +41,22 @@ export default class Sidebar extends React.Component {
         }
 
         return (
-            <div className="sidebar-item" style={style} onClick={handleClick.bind(this)}>
+            <div className="sidebar-item" style={style} onClick={handleClick}>
                 {node.isLeaf ? "📈 " : (node.isClosed) ? "▸ " : "▾"} {node.data.name}
             </div>
         );
     }
 
-    render() {
-        return (
-            <div id="sidebar">
-                <Tree initialData={this.state.items} openByDefault={true}>
-                    {this.SidebarItem}
+    const { ref, width, height } = useResizeObserver();
+    return (
+        <div id="sidebar">
+            <h4 className="sidebar-title"> explorer </h4>
+            <div id="tree" ref={ref}>
+                <Tree initialData={items} openByDefault={true} width={width} height={height}>
+                    {SidebarItem}
                 </Tree>
             </div>
-        )
-    }
+            <h4 className="sidebar-title"> time controller </h4>
+        </div>
+    )
 }

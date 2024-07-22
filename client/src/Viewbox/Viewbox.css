@@ -2,3 +2,7 @@
     width: 100%;
     position: relative;
 }
+
+.flexlayout__tab {
+    background-color: var(--black);
+}
