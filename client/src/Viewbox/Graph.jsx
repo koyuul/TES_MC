@@ -15,6 +15,7 @@ import io from 'socket.io-client'
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+
 function Graph(props) {
     const [dataPackets, setDataPackets] = useState([]);
 
@@ -34,19 +35,6 @@ function Graph(props) {
         return () => {
             socket.disconnect();
         };
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await fetch('http://localhost:3000/TES13');
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         setDataPackets(await response.json());
-        //     } catch (error) {
-        //         console.error('There has been a problem with your fetch operation:', error);
-        //     }
-        // };
-
-        // fetchData();
     }, []); // Empty dependency array means this effect runs once after initial render
 
     const options = {
