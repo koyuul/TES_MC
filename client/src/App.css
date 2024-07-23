@@ -1,6 +1,10 @@
 html {
+    --black: #1F1E1C;
     --bg_dim: #242120;
     --bg0: #312c2b;
+    --bg1: #393230;
+    --bg2: #413937;
+    --bg4: #4E433F;
     --gray: #90817b;
     --gray_dim: #6a5e59;
     --txt_white: #e6e6e6;

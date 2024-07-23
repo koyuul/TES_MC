@@ -1,0 +1,216 @@
+{
+    "labels": [
+        {
+            "id": "TES13_ATTACHMENT_NAME",
+            "name": "ATTACHMENT_NAME"
+        },
+        {
+            "id": "TES13_ATTACHMENT_SIZE",
+            "name": "ATTACHMENT_SIZE"
+        },
+        {
+            "id": "TES13_BATTAI",
+            "name": "BATTAI"
+        },
+        {
+            "id": "TES13_BATTMI",
+            "name": "BATTMI"
+        },
+        {
+            "id": "TES13_BATTV",
+            "name": "BATTV"
+        },
+        {
+            "id": "TES13_CEP_RADIUS",
+            "name": "CEP_RADIUS"
+        },
+        {
+            "id": "TES13_CF",
+            "name": "CF"
+        },
+        {
+            "id": "TES13_CMDRES",
+            "name": "CMDRES"
+        },
+        {
+            "id": "TES13_CRK",
+            "name": "CRK"
+        },
+        {
+            "id": "TES13_CYCT",
+            "name": "CYCT"
+        },
+        {
+            "id": "TES13_EPOCH",
+            "name": "EPOCH"
+        },
+        {
+            "id": "TES13_GPS",
+            "name": "GPS"
+        },
+        {
+            "id": "TES13_IMEI",
+            "name": "IMEI"
+        },
+        {
+            "id": "TES13_MESSAGE",
+            "name": "MESSAGE"
+        },
+        {
+            "id": "TES13_MET",
+            "name": "MET"
+        },
+        {
+            "id": "TES13_MOMSN",
+            "name": "MOMSN"
+        },
+        {
+            "id": "TES13_MTMSN",
+            "name": "MTMSN"
+        },
+        {
+            "id": "TES13_PKTNUM",
+            "name": "PKTNUM"
+        },
+        {
+            "id": "TES13_QUEUED",
+            "name": "QUEUED"
+        },
+        {
+            "id": "TES13_QUEUE_SIZE",
+            "name": "QUEUE_SIZE"
+        },
+        {
+            "id": "TES13_R1",
+            "name": "R1"
+        },
+        {
+            "id": "TES13_R2",
+            "name": "R2"
+        },
+        {
+            "id": "TES13_R3",
+            "name": "R3"
+        },
+        {
+            "id": "TES13_R4",
+            "name": "R4"
+        },
+        {
+            "id": "TES13_R5",
+            "name": "R5"
+        },
+        {
+            "id": "TES13_RC1",
+            "name": "RC1"
+        },
+        {
+            "id": "TES13_RC2",
+            "name": "RC2"
+        },
+        {
+            "id": "TES13_RC3",
+            "name": "RC3"
+        },
+        {
+            "id": "TES13_RC4",
+            "name": "RC4"
+        },
+        {
+            "id": "TES13_RC5",
+            "name": "RC5"
+        },
+        {
+            "id": "TES13_RO1",
+            "name": "RO1"
+        },
+        {
+            "id": "TES13_RO2",
+            "name": "RO2"
+        },
+        {
+            "id": "TES13_RO3",
+            "name": "RO3"
+        },
+        {
+            "id": "TES13_RO4",
+            "name": "RO4"
+        },
+        {
+            "id": "TES13_RO5",
+            "name": "RO5"
+        },
+        {
+            "id": "TES13_RS1",
+            "name": "RS1"
+        },
+        {
+            "id": "TES13_RS2",
+            "name": "RS2"
+        },
+        {
+            "id": "TES13_RS3",
+            "name": "RS3"
+        },
+        {
+            "id": "TES13_RS4",
+            "name": "RS4"
+        },
+        {
+            "id": "TES13_RS5",
+            "name": "RS5"
+        },
+        {
+            "id": "TES13_SM",
+            "name": "SM"
+        },
+        {
+            "id": "TES13_SP1V",
+            "name": "SP1V"
+        },
+        {
+            "id": "TES13_SP2V",
+            "name": "SP2V"
+        },
+        {
+            "id": "TES13_SP3V",
+            "name": "SP3V"
+        },
+        {
+            "id": "TES13_SP4V",
+            "name": "SP4V"
+        },
+        {
+            "id": "TES13_SPSENSE",
+            "name": "SPSENSE"
+        },
+        {
+            "id": "TES13_STATUS",
+            "name": "STATUS"
+        },
+        {
+            "id": "TES13_TIME",
+            "name": "TIME"
+        },
+        {
+            "id": "TES13_TLCMD",
+            "name": "TLCMD"
+        },
+        {
+            "id": "TES13_TYPE",
+            "name": "TYPE"
+        },
+        {
+            "id": "TES13_UNIT_LAT",
+            "name": "UNIT_LAT"
+        },
+        {
+            "id": "TES13_UNIT_LON",
+            "name": "UNIT_LON"
+        },
+        {
+            "id": "TES13_id",
+            "name": "id"
+        }
+    ]
+}

@@ -1,37 +1,47 @@
 const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const rethinkdb = require('rethinkdb')
+
 const app = express();
-rethinkdb = require('rethinkdb')
+const server = http.createServer(app);
+const io = socketIo(server, { cors: { origin: '*' } });
 
-// Allow CORS requests so that we can request data freely
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+const PORT = process.env.PORT || 3000;
 
-app.get('/TES13', (req, res) => {
-    rethinkdb.connect({ host: 'localhost', port: 28015 }, (err, conn) => {
-        if (err) {
-            res.send(err)
-            console.log(`No rethinkdb connection at http://localhost:${port}/TES13. Have you started the server?`)
-            return;
-        }
-
-        connection = conn;
-        rethinkdb.db('TES_13').table('Powerboard').orderBy({ index: rethinkdb.desc('EPOCH') }).sample(10).run(connection, (err, cursor) => {
-            if (err) throw err;
-            cursor.toArray((err, result) => {
-                res.json(result)
+// the current thing is that on websocket connection, the changes will have alread processed and been emitted...
+// Subscribe to TES13 powerboard's changes, and emit changes via a websocket. Save a buffer of data to pass to websocket on initial connection..
+let data = [];
+rethinkdb.connect({ host: 'localhost', port: 28015 }, (err, conn) => {
+    if (err) throw err;
+    console.log('RethinkDB Connected');
+    rethinkdb.db('TES_13').table('Powerboard')
+        .orderBy({ index: rethinkdb.desc('EPOCH') })
+        .limit(100)
+        .changes({ includeInitial: true })
+        .run(conn, function (err, cursor) {
+            cursor.each((err, change) => {
+                if (err) throw err;
+                console.log(`Sending packet from ${change['new_val']['EPOCH']} to websocket`);
+                data.push(change['new_val']);
+                io.emit('change', change['new_val']);
             });
-        })
-    });
+        });
 });
 
+// Handle websocket connect/disconnects
+io.on('connection', (socket) => {
+    console.log(`User connected to ${socket}`);
 
-app.get('/', (req, res) => {
-    res.send('success boi')
+    console.log(`Sending initial data to ${socket}`);
+    socket.emit('initialData', data);
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 })
 
-const port = process.env.PORT || 3000;
-app.listen(3000, () => console.log(`TES_MC Server listening at http://localhost:${port}/`));
+// Listen to current port (3000)
+server.listen(PORT, () => {
+    console.log(`TES_MC server listening at http://localhost:${PORT}/`);
+})
