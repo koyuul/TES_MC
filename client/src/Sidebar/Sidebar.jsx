@@ -35,7 +35,7 @@ export default function Sidebar(props) {
             if (node.isLeaf) {
                 if (event.detail == 1) {
                     timer.current = setTimeout(() => {
-                        layoutRef.current.addTabToActiveTabSet( //TODO: find a way to impelement addToActiveTab on double click.
+                        layoutRef.current.addTabToActiveTabSet(
                             {
                                 type: "tab",
                                 component: "graph",
@@ -45,7 +45,7 @@ export default function Sidebar(props) {
                     }, 200)
                 } else if (event.detail == 2) {
                     clearTimeout(timer);
-                    layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
+                    layoutRef.current.addTabWithDragAndDropIndirect(
                         node.data.name + " 📈",
                         {
                             type: "tab",
