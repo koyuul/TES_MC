@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Tree } from 'react-arborist';
 import useResizeObserver from "use-resize-observer";
-import TES13_labels from "../data/TES13_labels.json"
+import TES13_labels from "../data/TES13_labels.json";
 import "./Sidebar.css";
 
 export default function Sidebar(props) {
@@ -25,17 +25,35 @@ export default function Sidebar(props) {
         },
     ])
 
+
     let SidebarItem = ({ node, style, dragHandle }) => {
+        const timer = useRef();
+
         function handleClick(event) {
+            clearTimeout(timer.current);
+
             if (node.isLeaf) {
-                layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
-                    node.data.name + " 📈",
-                    {
-                        type: "tab",
-                        component: "graph",
-                        name: node.parent.parent.data.id + " - " + node.data.name,
-                    },
-                );
+                if (event.detail == 1) {
+                    timer.current = setTimeout(() => {
+                        layoutRef.current.addTabToActiveTabSet( //TODO: find a way to impelement addToActiveTab on double click.
+                            {
+                                type: "tab",
+                                component: "graph",
+                                name: node.parent.parent.data.id + " - " + node.data.name,
+                            },
+                        );
+                    }, 200)
+                } else if (event.detail == 2) {
+                    clearTimeout(timer);
+                    layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
+                        node.data.name + " 📈",
+                        {
+                            type: "tab",
+                            component: "graph",
+                            name: node.parent.parent.data.id + " - " + node.data.name,
+                        },
+                    );
+                }
             }
             else node.toggle();
         }
