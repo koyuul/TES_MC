@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client'
 import {
     Chart as ChartJS,
     LineElement,
@@ -11,30 +12,31 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
-import io from 'socket.io-client'
 import { splitToPoints } from '../utils/PacketSplitter';
-import { generateSidebarLabels } from '../utils/SidebarGenerator';
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
-
 function Graph(props) {
-    const [dataPackets, setDataPackets] = useState([]);
+    let [points, setPoints] = useState([]);
 
-    // Once component loads, request data for graph
     useEffect(() => {
-        const socket = io('ws://localhost:3000');
-        socket.on('initialData', (initialData) => {
-            console.log('Received initial data');
+        const socket = io(
+            'ws://localhost:3000'
+        );
 
-            console.log(generateSidebarLabels('TES13', initialData));
-            setDataPackets(splitToPoints(initialData, props.name));
+        socket.emit('initialRequest',
+            {
+                query: {
+                    startDatetime: `${props.startDate}T${props.startTime}:00.000Z`,
+                    endDatetime: `${props.endDate}T${props.endTime}:00.000Z`,
+                }
+            }
+        )
+
+        socket.on('initialResponse', (initialResponse) => {
+            console.log('Received initial response');
+            setPoints(initialResponse);
         })
-
-        socket.on('change', (change) => {
-            console.log('Data change registered');
-            setDataPackets((prev, props) => [...prev, change]);
-        });
 
         return () => {
             socket.disconnect();
@@ -62,14 +64,14 @@ function Graph(props) {
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1,
-            data: dataPackets,
+            data: points
         }]
     }
 
 
     return <>
         <Line options={options} data={data} />
-        <textarea value={JSON.stringify(dataPackets, null, 4)} rows={10} cols={50} readOnly={true}></textarea>
+        <textarea value={JSON.stringify((points), null, 4)} rows={10} cols={50} readOnly={true}></textarea>
 
     </>
 }

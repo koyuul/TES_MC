@@ -58,8 +58,6 @@ const rethinkURL = ""
 */
 
 const Viewbox = function (props) {
-    const [displayedData, setDisplayedData] = useState({});
-
     const factory = (node) => {
         var component = node.getComponent();
 
@@ -67,7 +65,14 @@ const Viewbox = function (props) {
         if (component === "graph") {
             try {
                 let name = node._attributes.name.split(' ');
-                return <Graph node={node} name={name[name.length - 1]} />
+                return <Graph
+                    node={node} name={name[name.length - 1]}
+                    startDate={props.startDate}
+                    startTime={props.startTime}
+                    endDate={props.endDate}
+                    endTime={props.endTime}
+                    dataPackets={props.dataPackets}
+                />
             }
             catch (err) {
                 alert(err)
