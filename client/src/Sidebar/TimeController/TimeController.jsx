@@ -11,8 +11,8 @@ export default function TimeController(props) {
             - have +-   1hr, +-1 day buttons to quick adjust bounds
 
     */
-    function handleClick() {
-
+    function handleClick(evt) {
+        console.log(evt.target.value);
     }
 
     return (
@@ -45,10 +45,11 @@ export default function TimeController(props) {
                     type="date"
                     name="end-date"
                     id="end-date"
+                    onChange={(e) => props.setEndDate(e.target.value)}
                     defaultValue={props.endDate}
                 />
             </div>
-            <input type="button" value="test" onClick={handleClick} />
+            <input type="button" value="test" />
         </div>
     )
 }

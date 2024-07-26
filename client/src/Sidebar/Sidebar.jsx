@@ -69,6 +69,10 @@ export default function Sidebar(props) {
                 startTime={props.startTime}
                 endDate={props.endDate}
                 endTime={props.endTime}
+                setStartDate={props.setStartDate}
+                setStartTime={props.setStartTime}
+                setEndDate={props.setEndDate}
+                setEndTime={props.setEndTime}
             />
         </div>
     )
