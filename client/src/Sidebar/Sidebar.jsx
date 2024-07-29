@@ -73,6 +73,7 @@ export default function Sidebar(props) {
                 setStartTime={props.setStartTime}
                 setEndDate={props.setEndDate}
                 setEndTime={props.setEndTime}
+                handleTimeChange={props.handleTimeChange}
             />
         </div>
     )

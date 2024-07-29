@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import DateTimePicker from 'react-datetime-picker';
 import './TimeController.css';
 
 export default function TimeController(props) {
@@ -11,45 +10,46 @@ export default function TimeController(props) {
             - have +-   1hr, +-1 day buttons to quick adjust bounds
 
     */
-    function handleClick(evt) {
-        console.log(evt.target.value);
-    }
-
     return (
         <div id="time-controller">
-            <div id="start-datetime" className="datetime-block">
-                <input
-                    type="time"
-                    name="start-time"
-                    id="start-time"
-                    defaultValue={props.startTime}
-                />
-                <input
-                    type="date"
-                    name="start-date"
-                    id="start-date"
-                    defaultValue={props.startDate}
-                />
-            </div>
+            <div id="time-controller-inputs">
+                <div id="start-datetime" className="datetime-block">
+                    <input
+                        type="time"
+                        name="start-time"
+                        id="start-time"
+                        onChange={(e) => props.setStartTime(e.target.value)}
+                        defaultValue={props.startTime}
+                    />
+                    <input
+                        type="date"
+                        name="start-date"
+                        id="start-date"
+                        onChange={(e) => props.setStartDate(e.target.value)}
+                        defaultValue={props.startDate}
+                    />
+                </div>
 
-            <div>to</div>
+                <div id="time-controller-separator">to</div>
 
-            <div id="end-datetime" className="datetime-block">
-                <input
-                    type="time"
-                    name="end-time"
-                    id="end-time"
-                    defaultValue={props.endTime}
-                />
-                <input
-                    type="date"
-                    name="end-date"
-                    id="end-date"
-                    onChange={(e) => props.setEndDate(e.target.value)}
-                    defaultValue={props.endDate}
-                />
+                <div id="end-datetime" className="datetime-block">
+                    <input
+                        type="time"
+                        name="end-time"
+                        id="end-time"
+                        onChange={(e) => props.setEndTime(e.target.value)}
+                        defaultValue={props.endTime}
+                    />
+                    <input
+                        type="date"
+                        name="end-date"
+                        id="end-date"
+                        onChange={(e) => props.setEndDate(e.target.value)}
+                        defaultValue={props.endDate}
+                    />
+                </div>
             </div>
-            <input type="button" value="test" />
+            <input id="time-controller-submit" type="button" value="Update" onClick={props.handleTimeChange} />
         </div>
     )
 }

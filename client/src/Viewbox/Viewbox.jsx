@@ -48,7 +48,6 @@ const Viewbox = function (props) {
         if (component === "graph") {
             try {
                 let name = node._attributes.name.split(' ');
-                console.log(name[name.length - 1])
                 return <Graph
                     node={node} name={name[name.length - 1]}
                     startDate={props.startDate}

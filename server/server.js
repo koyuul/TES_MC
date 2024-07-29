@@ -29,10 +29,30 @@ io.on('connection', (socket) => {
                 .run(conn, function (err, cursor) {
                     cursor.toArray((err, result) => {
                         if (err) throw err;
+                        data = result;
                         socket.emit('initialResponse', result);
                     });
                 });
             console.log(`Sent initialResponse to ${socket}`);
+        })
+
+        socket.on('dateChangeRequest', (parameters) => {
+            console.log('dateChangeRequest received')
+            const newStartDatetime = new Date(parameters.query.newStartDatetime);
+            const newEndDatetime = new Date(parameters.query.newEndDatetime);
+            rethinkdb.db('TES_13').table('Powerboard')
+                .orderBy({ index: rethinkdb.desc('EPOCH') })
+                .between(newStartDatetime, newEndDatetime)
+                // .limit(500)
+                // .changes({ includeInitial: true })
+                .run(conn, function (err, cursor) {
+                    cursor.toArray((err, result) => {
+                        if (err) throw err;
+                        data = result;
+                        socket.emit('dateChangeResponse', result);
+                    });
+                });
+            console.log(`Sent dateChangeResponse to ${socket}`);
         })
 
         socket.on('disconnect', () => {
@@ -45,59 +65,3 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`TES_MC server listening at http://localhost:${PORT}/`);
 })
-
-const points = {
-    'ATTACHMENT_NAME': [],
-    'ATTACHMENT_SIZE': [],
-    'BATTAI': [],
-    'BATTMI': [],
-    'BATTV': [],
-    'CEP_RADIUS': [],
-    'CF': [],
-    'CMDRES': [],
-    'CRK': [],
-    'CYCT': [],
-    'EPOCH': [],
-    'GPS': [],
-    'IMEI': [],
-    'MESSAGE': [],
-    'MET': [],
-    'MOMSN': [],
-    'MTMSN': [],
-    'PKTNUM': [],
-    'QUEUED': [],
-    'QUEUE_SIZE': [],
-    'R1': [],
-    'R2': [],
-    'R3': [],
-    'R4': [],
-    'R5': [],
-    'RC1': [],
-    'RC2': [],
-    'RC3': [],
-    'RC4': [],
-    'RC5': [],
-    'RO1': [],
-    'RO2': [],
-    'RO3': [],
-    'RO4': [],
-    'RO5': [],
-    'RS1': [],
-    'RS2': [],
-    'RS3': [],
-    'RS4': [],
-    'RS5': [],
-    'SM': [],
-    'SP1V': [],
-    'SP2V': [],
-    'SP3V': [],
-    'SP4V': [],
-    'SPSENSE': [],
-    'STATUS': [],
-    'TIME': [],
-    'TLCMD': [],
-    'TYPE': [],
-    'UNIT_LAT': [],
-    'UNIT_LON': [],
-    'id': []
-};

@@ -14,58 +14,63 @@ export default function App() {
 	const [endTime, setEndTime] = useState("12:00");
 	const [dataPackets, setDataPackets] = useState([]);
 	const [points, setPoints] = useState();
+	const socket = io(
+		'ws://localhost:3000',
+		{
+			query: {
+				startDatetime: `${startDate}T${startTime}:00Z`,
+				endDatetime: `${endDate}T${endTime}:00Z`,
+			}
+		}
+	);
+
+	socket.on('dateChangeResponse', (dateChangeResponse) => {
+		console.log('Received date change response');
+		let tempPoints = {};
+		for (let packet of dateChangeResponse) {
+			for (let [key, val] of Object.entries(packet)) {
+				if (tempPoints[key] == undefined) tempPoints[key] = [];
+				tempPoints[key].push({ x: new Date(packet['EPOCH']), y: val });
+			}
+		}
+		setDataPackets(dateChangeResponse);
+		setPoints(tempPoints);
+	});
+
+	socket.on('initialResponse', (initialResponse) => {
+		console.log('Received initial response');
+		let tempPoints = {};
+		for (let packet of initialResponse) {
+			for (let [key, val] of Object.entries(packet)) {
+				if (tempPoints[key] == undefined) tempPoints[key] = [];
+				tempPoints[key].push({ x: new Date(packet['EPOCH']), y: val });
+			}
+		}
+		setDataPackets(initialResponse);
+		setPoints(tempPoints);
+	})
 
 	useEffect(() => {
-		const socket = io(
-			'ws://localhost:3000',
-			{
-				query: {
-					startDatetime: `${startDate}T${startTime}:00Z`,
-					endDatetime: `${endDate}T${endTime}:00Z`,
-				}
-			}
-		);
-
 		socket.emit('initialRequest');
-		socket.on('initialResponse', (initialResponse) => {
-			console.log('Received initial response');
-			console.log(initialResponse)
-			let tempPoints = {};
-			for (let packet of initialResponse) {
-				for (let [key, val] of Object.entries(packet)) {
-					if (tempPoints[key] == undefined) tempPoints[key] = [];
-					tempPoints[key].push({ x: new Date(packet['EPOCH']), y: val });
-				}
-			}
-			setDataPackets(initialResponse);
-			setPoints(tempPoints);
-			console.log(tempPoints);
-		})
 
 		return () => {
 			socket.disconnect();
 		};
 	}, []); // Empty dependency array means this effect runs once after initial render
 
+	function handleTimeChange() {
+		// TODO: ensure that the start aint after the end
+		console.log('Handling time change...');
+		socket.emit('dateChangeRequest',
+			{
+				query: {
+					newStartDatetime: `${startDate}T${startTime}:00Z`,
+					newEndDatetime: `${endDate}T${endTime}:00Z`,
+				}
+			}
+		);
 
-	/*
-		Leave off:
-			we have our sys working.
-			we are able to change our date and register it in app.jsx
-			we have to make a function that runs when submit button is clicked
-			we now just have to implement the functionality in server.js
-			socket.on('datechange', {
-				// rerequest  data
-			})
-
-
-
-
-	*/
-
-	useEffect(() => {
-		console.log("we changed teh date hoorayyyy");
-	}, [endDate])
+	}
 
 	return (
 		<div id="app">
@@ -79,6 +84,7 @@ export default function App() {
 				setStartTime={setStartTime}
 				setEndDate={setEndDate}
 				setEndTime={setEndTime}
+				handleTimeChange={handleTimeChange}
 			/>
 
 			<Viewbox
