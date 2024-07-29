@@ -1,0 +1,34 @@
+#time-controller {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.datetime-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.datetime-block input {
+    background-color: var(--bg_dim);
+    border: none;
+    color: var(--text-white)
+}
+
+#time-controller-inputs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#time-controller-submit {
+    margin-top: 1em;
+}
+
+#time-controller-separator {
+    margin-left: 1em;
+    margin-right: 1em;
+}
