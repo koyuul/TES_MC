@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Tree } from 'react-arborist';
 import useResizeObserver from "use-resize-observer";
 import TimeController from './TimeController/TimeController';
@@ -30,16 +30,33 @@ export default function Sidebar(props) {
 
     // Define layout for sidebar item
     let SidebarItem = ({ node, style, dragHandle }) => {
+        const timer = useRef();
+
         function handleClick(event) {
+            clearTimeout(timer.current);
+
             if (node.isLeaf) {
-                layoutRef.current.addTabWithDragAndDropIndirect( //TODO: find a way to impelement addToActiveTab on double click.
-                    node.data.name + " 📈",
-                    {
-                        type: "tab",
-                        component: "graph",
-                        name: node.parent.parent.data.id + " - " + node.data.name,
-                    },
-                );
+                if (event.detail == 1) {
+                    timer.current = setTimeout(() => {
+                        layoutRef.current.addTabToActiveTabSet(
+                            {
+                                type: "tab",
+                                component: "graph",
+                                name: node.parent.parent.data.id + " - " + node.data.name,
+                            },
+                        );
+                    }, 200)
+                } else if (event.detail == 2) {
+                    clearTimeout(timer);
+                    layoutRef.current.addTabWithDragAndDropIndirect(
+                        node.data.name + " 📈",
+                        {
+                            type: "tab",
+                            component: "graph",
+                            name: node.parent.parent.data.id + " - " + node.data.name,
+                        },
+                    );
+                }
             }
             else node.toggle();
         }

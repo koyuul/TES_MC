@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Layout, Model } from 'flexlayout-react'
-import Graph from "./Graph"
+import { Layout, Model } from 'flexlayout-react';
 import 'flexlayout-react/style/dark.css';
-import "./Viewbox.css"
+import React, { useState } from 'react';
+import Graph from "./Graph";
+import "./Viewbox.css";
 
 //TODO: make this relevant to us
 //TODO: make this preload
@@ -12,30 +12,7 @@ let defaultViewModel = { // This model defines the inital view we see when the a
     layout: {
         type: "row",
         weight: 100,
-        children: [
-            {
-                type: "tabset",
-                weight: 50,
-                children: [
-                    {
-                        type: "tab",
-                        name: "One",
-                        component: "button",
-                    }
-                ]
-            },
-            {
-                type: "tabset",
-                weight: 50,
-                children: [
-                    {
-                        type: "tab",
-                        name: "Two",
-                        component: "button",
-                    }
-                ]
-            }
-        ]
+        children: []
     }
 };
 
