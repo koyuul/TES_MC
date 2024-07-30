@@ -1,7 +1,7 @@
 import { Layout, Model } from 'flexlayout-react';
-import 'flexlayout-react/style/dark.css';
-import React, { useState } from 'react';
+import React from 'react';
 import Graph from "./Graph";
+import 'flexlayout-react/style/dark.css';
 import "./Viewbox.css";
 
 //TODO: make this relevant to us
@@ -19,7 +19,8 @@ let defaultViewModel = { // This model defines the inital view we see when the a
 const model = Model.fromJson(defaultViewModel);
 const Viewbox = function (props) {
     const factory = (node) => {
-        var component = node.getComponent();
+        const component = node.getComponent();
+        const index = node._parent._children.length;
 
         if (component === "button") return <button>{node.getName()}</button>;
         if (component === "graph") {
@@ -32,6 +33,7 @@ const Viewbox = function (props) {
                     endDate={props.endDate}
                     endTime={props.endTime}
                     points={props.points[name[name.length - 1]]}
+                    index={index}
                 />
             }
             catch (err) {
